@@ -1,14 +1,11 @@
 package com.example.tipscalculator
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.tipscalculator.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,20 +33,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnClean.setOnClickListener {
-            binding.tvResult.text = ""
-            binding.tieTotal.setText("")
-            binding.tieNumPeople.setText("")
-            binding.rbOptionOne.isChecked = false
-            binding.rbOptionTwo.isChecked = false
-            binding.rbOptionThree.isChecked = false
-        }
+
 
         binding.btnDone.setOnClickListener {
             val totalTableTemp = binding.tieTotal.text
             val nPeopleTemp = binding.tieNumPeople.text
 
-            if (totalTableTemp?.isEmpty() == true || nPeopleTemp?.isEmpty() == true) {
+            if (totalTableTemp?.isEmpty() == true ||
+                nPeopleTemp?.isEmpty() == true
+                ) {
 
                 Snackbar.make(binding.tieTotal, "Preencha Todos os Campos", Snackbar.LENGTH_LONG)
                     .show()
@@ -60,11 +52,22 @@ class MainActivity : AppCompatActivity() {
                 val totalTemp = totalTable / nPeople
                 val tips = totalTemp * percentage / 100
                 val totalWithTips = totalTemp + tips
-
                 binding.tvResult.text = "Total With Tips: $totalWithTips"
 
             }
 
+        }
+
+        binding.btnClean.setOnClickListener {
+            binding.tvResult.text = ""
+            binding.tieTotal.setText("")
+            binding.tieNumPeople.setText("")
+            binding.rbOptionOne.isChecked = false
+            binding.rbOptionTwo.isChecked = false
+            binding.rbOptionThree.isChecked = false
+
+            val intent = Intent(this, SummaryActivity::class.java)
+            startActivity(intent)
         }
     }
 }
