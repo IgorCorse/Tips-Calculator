@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     numOfPeopleSelected = position
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
 
@@ -75,21 +76,31 @@ class MainActivity : AppCompatActivity() {
                 val totalTemp = totalTable / nPeople
                 val tips = totalTemp * percentage / 100
                 val totalWithTips = totalTemp + tips
-                binding.tvResult.text = "Total With Tips: $totalWithTips"
+
+                val intent = Intent(this, SummaryActivity::class.java)
+                intent.apply {
+                    putExtra("totalTable", totalTable)
+                    putExtra("numPeople", numOfPeopleSelected)
+                    putExtra("percentage", percentage)
+                    putExtra("totalAmount", totalWithTips)
+                }
+                clean()
+                startActivity(intent)
+
 
             }
 
         }
 
         binding.btnClean.setOnClickListener {
-            binding.tvResult.text = ""
-            binding.tieTotal.setText("")
-            binding.rbOptionOne.isChecked = false
-            binding.rbOptionTwo.isChecked = false
-            binding.rbOptionThree.isChecked = false
-
-            val intent = Intent(this, SummaryActivity::class.java)
-            startActivity(intent)
+            clean()
         }
+    }
+
+    private fun clean(){
+        binding.tieTotal.setText("")
+        binding.rbOptionOne.isChecked = false
+        binding.rbOptionTwo.isChecked = false
+        binding.rbOptionThree.isChecked = false
     }
 }
